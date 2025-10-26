@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>INFOPLIST_KEY_NSCameraUsageDescription</key>
-	<string>PushUnlock needs camera access to count your push-ups using pose detection.</string>
 	<key>archiveVersion</key>
 	<string>1</string>
 	<key>classes</key>
@@ -703,6 +701,8 @@
 				<string>UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight</string>
 				<key>INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone</key>
 				<string>UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight</string>
+				<key>INFOPLIST_KEY_NSCameraUsageDescription</key>
+				<string>PushUnlock needs camera access to count your push-ups using pose detection.</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 				<string>18.4</string>
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
@@ -779,6 +779,8 @@
 				<string>UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight</string>
 				<key>INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone</key>
 				<string>UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight</string>
+				<key>INFOPLIST_KEY_NSCameraUsageDescription</key>
+				<string>PushUnlock needs camera access to count your push-ups using pose detection.</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 				<string>18.4</string>
 				<key>LD_RUNPATH_SEARCH_PATHS</key>

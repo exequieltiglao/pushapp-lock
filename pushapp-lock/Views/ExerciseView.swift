@@ -142,17 +142,21 @@ struct ExerciseView: View {
     }
     
     private func startExercise() async {
+        print("🏃 Starting exercise...")
         pushUpDetector.reset()
         
         // Setup pose detection callback
         cameraManager.onPoseDetected = { observation in
+            print("👀 Pose detected!")
             pushUpDetector.analyzePose(observation)
         }
         
         cameraManager.startSession()
         isExercising = true
+        print("✅ Camera session started, isExercising: \(isExercising)")
         
         if cameraManager.error != nil {
+            print("❌ Camera error: \(cameraManager.error?.localizedDescription ?? "unknown")")
             showError = true
         }
     }

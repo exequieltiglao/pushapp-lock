@@ -36,6 +36,7 @@ class PushUpDetector: ObservableObject {
         } else if averageElbowAngle > upPositionAngle && isInDownPosition {
             // Up position detected - complete push-up
             pushUpCount += 1
+            print("💪 PUSH-UP COUNTED! Total: \(pushUpCount)")
             isInDownPosition = false
             hasReachedUpPosition = true
             currentPosition = .up

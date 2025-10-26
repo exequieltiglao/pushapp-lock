@@ -13,6 +13,7 @@ struct ExerciseView: View {
     @StateObject private var pushUpDetector = PushUpDetector()
     @State private var isExercising = false
     @State private var showError = false
+    @State private var isTestMode = false
     
     var body: some View {
         NavigationStack {
@@ -96,23 +97,48 @@ struct ExerciseView: View {
                 
                 Spacer()
                 
+                // Test Mode Toggle
+                Toggle("Test Mode (No Camera)", isOn: $isTestMode)
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
+                
                 // Control Buttons
-                Button(action: {
-                    if isExercising {
-                        stopExercise()
-                    } else {
-                        Task {
-                            await startExercise()
+                HStack(spacing: 16) {
+                    Button(action: {
+                        if isExercising {
+                            stopExercise()
+                        } else {
+                            if isTestMode {
+                                startTestMode()
+                            } else {
+                                Task {
+                                    await startExercise()
+                                }
+                            }
                         }
+                    }) {
+                        Text(isExercising ? "Stop & Save" : "Start Exercise")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(isExercising ? Color.red : Color.blue)
+                            .cornerRadius(16)
                     }
-                }) {
-                    Text(isExercising ? "Stop & Save" : "Start Exercise")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(isExercising ? Color.red : Color.blue)
+                    
+                    // Manual Push-up Button (Test Mode)
+                    if isExercising && isTestMode {
+                        Button(action: {
+                            simulatePushUp()
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 32))
+                                .foregroundStyle(.blue)
+                        }
+                        .frame(width: 60, height: 60)
+                        .background(Color.blue.opacity(0.1))
                         .cornerRadius(16)
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 32)
@@ -162,10 +188,30 @@ struct ExerciseView: View {
     }
     
     private func stopExercise() {
-        cameraManager.stopSession()
+        if !isTestMode {
+            cameraManager.stopSession()
+            cameraManager.onPoseDetected = nil
+        }
         isExercising = false
         appState.earnMinutes(from: pushUpDetector.pushUpCount)
-        cameraManager.onPoseDetected = nil
+    }
+    
+    private func startTestMode() {
+        print("🧪 Starting TEST MODE...")
+        pushUpDetector.reset()
+        isExercising = true
+    }
+    
+    private func simulatePushUp() {
+        // Simulate going down
+        pushUpDetector.currentPosition = .down
+        
+        // Wait a bit, then simulate going up (completes the push-up)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            pushUpDetector.currentPosition = .up
+            pushUpDetector.pushUpCount += 1
+            print("🧪 TEST: Simulated push-up! Total: \(pushUpDetector.pushUpCount)")
+        }
     }
 }
 
